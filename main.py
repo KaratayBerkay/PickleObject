@@ -11,9 +11,8 @@ class ExClass(object):
     variable5: str
     variable6: str
 
-    @staticmethod
-    def my_function() -> str:
-        return 'This is a example <class> function'
+    def retrieve(self) -> str:
+        return self.__dict__.__str__()
 
 
 def pickle_object_to_txt(input_object: object, name: str = "pickle_created"):
@@ -60,6 +59,9 @@ if __name__ == '__main__':
     ex_class.variable6 = "variableŞ"
 
     pickle_class = pickle_object_to_txt(input_object=ex_class, name="pickle_created")
-    unpickle_class = unpickle_object_to_txt(name="pickle_created")
+    unpickle_class, un_jsoned = unpickle_object_to_txt(name="pickle_created")
+    unpickle_function = unpickle_class.retrieve()
+    print('--------------------------------------------------------------------------------------------')
+    print('Un-pickled <class> function -->', unpickle_function)
 
 
