@@ -19,7 +19,7 @@ def pickle_object_to_txt(input_object: object, name: str = "pickle_created"):
     pickled = codecs.encode(pickle.dumps(input_object), "base64").decode()
     dict_pickle_bytes = {name: pickled.__str__()}
     print('pickled data :', type(dict_pickle_bytes))
-    print('pickled data.__dict__ : ', dict_pickle_bytes[name])
+    print('pickled data.items : ', name, ' --> ', dict_pickle_bytes[name])
     with open("pickled.pickle", "wb") as outfile:
         pickle.dump(dict_pickle_bytes, outfile, protocol=pickle.HIGHEST_PROTOCOL)
     with open("pickled.json", "wb") as outfile:
