@@ -12,7 +12,7 @@ class ExClass(object):
     variable6: str
 
     def retrieve(self) -> str:
-        return self.__dict__.__str__()
+        return str(type(self)) + ' --> ' + str(type(self.retrieve)) + '  --> retrieve(self) -> str:'
 
 
 def pickle_object_to_txt(input_object: object, name: str = "pickle_created"):
@@ -40,12 +40,12 @@ def unpickle_object_to_txt(name: str = "pickle_created"):
         print('un-pickled pickle data.__dict__ : ', un_pickled.__dict__)
         openfile.close()
     with open('pickled.json', 'rb') as openfile:
-        un_jsoned = json.loads(openfile.read())[name]
-        un_pickled = pickle.loads(codecs.decode(un_jsoned.encode(), "base64"))
+        un_pickled_json = json.loads(openfile.read())[name]
+        un_pickled_json_b64 = pickle.loads(codecs.decode(un_pickled_json.encode(), "base64"))
         print('--------------------------------------------')
-        print('un-pickled json data :', type(un_pickled))
-        print('un-pickled json data.__dict__ : ', un_pickled.__dict__)
-        return un_pickled, un_jsoned
+        print('un-pickled json data :', type(un_pickled_json_b64))
+        print('un-pickled json data.__dict__ : ', un_pickled_json_b64.__dict__)
+        return un_pickled_json_b64
 
 
 if __name__ == '__main__':
@@ -59,9 +59,9 @@ if __name__ == '__main__':
     ex_class.variable6 = "variableŞ"
 
     pickle_class = pickle_object_to_txt(input_object=ex_class, name="pickle_created")
-    unpickle_class, un_jsoned = unpickle_object_to_txt(name="pickle_created")
+    unpickle_class = unpickle_object_to_txt(name="pickle_created")
     unpickle_function = unpickle_class.retrieve()
     print('--------------------------------------------------------------------------------------------')
-    print('Un-pickled <class> function -->', unpickle_function)
+    print(unpickle_function)
 
 
