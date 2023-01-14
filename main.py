@@ -16,9 +16,9 @@ class ExClass(object):
         return 'This is a example <class> function'
 
 
-def pickle_object_to_txt(input_object: object, name: str):
+def pickle_object_to_txt(input_object: object, name: str = "pickle_created"):
     pickled = codecs.encode(pickle.dumps(input_object), "base64").decode()
-    dict_pickle_bytes = {name: pickled.__str__().replace('\\', '/')}
+    dict_pickle_bytes = {name: pickled.__str__()}
     print('pickled data :', type(dict_pickle_bytes))
     print('pickled data.__dict__ : ', dict_pickle_bytes[name])
     with open("pickled.pickle", "wb") as outfile:
@@ -29,9 +29,12 @@ def pickle_object_to_txt(input_object: object, name: str):
     return pickled
 
 
-def unpickle_object_to_txt(name: str):
+def unpickle_object_to_txt(name: str = "pickle_created"):
     with open('pickled.pickle', 'rb') as openfile:
-        un_serialized_data = pickle.load(openfile, encoding='utf-8')[name]
+        un_serialized_data = pickle.load(openfile, encoding='utf-8')
+        if name not in un_serialized_data:
+            raise AttributeError('given key is not in dataset')
+        un_serialized_data = un_serialized_data[name]
         un_pickled = pickle.loads(codecs.decode(un_serialized_data.encode(), "base64"))
         print('--------------------------------------------')
         print('un-pickled pickle data :', type(un_pickled))
@@ -39,7 +42,7 @@ def unpickle_object_to_txt(name: str):
         openfile.close()
     with open('pickled.json', 'rb') as openfile:
         un_jsoned = json.loads(openfile.read())[name]
-        un_serialized_data = pickle.loads(codecs.decode(un_jsoned.encode(), "base64"))
+        un_pickled = pickle.loads(codecs.decode(un_jsoned.encode(), "base64"))
         print('--------------------------------------------')
         print('un-pickled json data :', type(un_pickled))
         print('un-pickled json data.__dict__ : ', un_pickled.__dict__)
